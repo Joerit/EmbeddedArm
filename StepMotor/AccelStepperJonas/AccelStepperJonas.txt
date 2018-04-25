@@ -1,0 +1,3 @@
+AccelStepperJonas	KEYWORD1
+StepDefault	KEYWORD2
+StepSmall	KEYWORD2resetEDPins	KEYWORD2
