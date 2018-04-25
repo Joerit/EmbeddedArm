@@ -16,6 +16,7 @@ void loop(){
      while(Serial.available()){
       user_input = Serial.read(); //Read user input and trigger appropriate function
       int steps = Serial.parseInt();
+      Serial.println(steps);
       if(user_input =='1')
       {
         SmallStepMode(steps, false);
@@ -56,14 +57,14 @@ void loop(){
 void SmallStepMode(int steps, bool counterclock)
 {
   Serial.println("Stepping at 1/8th microstep mode.");
-  stepper1.StepMode(1, counterclock);
-  stepper2.StepMode(1, not(counterclock));
-  for(int x= 1; x<steps; x+=2)  //Loop the forward stepping enough times for motion to be visible
+  stepper1.StepMode(0, counterclock);
+  stepper2.StepMode(0, not(counterclock));
+  for(int x= 0; x<steps; x+=2)  //Loop the forward stepping enough times for motion to be visible
   {
     stepper1.SetSteps(2);
-    delay(2);
+    delay(5);
     stepper2.SetSteps(2);
-    delay(2);
+    delay(5);
   }
   Serial.println("Enter new option");
   Serial.println();

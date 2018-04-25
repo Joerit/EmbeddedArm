@@ -77,7 +77,7 @@ void AccelStepperJonas::StepMode(int mode, bool counterclock){
   }
   else if (mode == 1)
   {
-     digitalWrite(_ms1, HIGH); //Pull MS1, and MS2 high to set logic to 1/8th microstep resolution
+     digitalWrite(_ms1, LOW); //Pull MS1, and MS2 high to set logic to 1/8th microstep resolution
      digitalWrite(_ms2, HIGH);
   }
 
@@ -85,12 +85,12 @@ void AccelStepperJonas::StepMode(int mode, bool counterclock){
 };
 
 void AccelStepperJonas::SetSteps(int steps){
-  for(int y= 1; y<steps; y++)  //Loop the forward stepping enough times for motion to be visible
+  for(int y= 0; y<steps; y++)  //Loop the forward stepping enough times for motion to be visible
   {
     digitalWrite(_stp,HIGH); //Trigger one step forward
-    delay(1);
+    delay(2);
     digitalWrite(_stp,LOW); //Pull step pin low so it can be triggered again
-    delay(1);
+    delay(2);
   }
 };
 
