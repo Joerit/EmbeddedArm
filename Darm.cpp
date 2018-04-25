@@ -11,6 +11,9 @@ DArm::DArm(double lengthN, double lengthF, Point A, Point B){
 	this->lengthN = lengthN;
 	this->A = A;
 	this->B = B;
+	this->currentA = Point(45, 45);
+	this->currentP = Point(0, 0);
+	this->stepAngle = 0.9;
 }
 
 Point DArm::Convert(Point point){
@@ -81,4 +84,16 @@ PointTuple DArm::CalcIntersects(Point A, double Ar, Point B, double Br){
 	Serial.println(R.b.y, 3);
 
 	return R;
+}
+
+void DArm::MoveTo(Point point){
+	// convert point to angles
+	Point newAngles = Convert(point);
+
+	// calculate what steps need to be taken
+	int stepsA = (newAngles.x) / stepAngle;
+	int stepsB = (newAngles.y) / stepAngle;
+
+	// move steps
+
 }
