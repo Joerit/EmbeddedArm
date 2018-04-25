@@ -84,13 +84,20 @@ void AccelStepperJonas::StepMode(int mode, bool counterclock){
   digitalWrite(_dir, counterclock); //Pull direction pin low to move "forward"
 };
 
-void AccelStepperJonas::SetStep(int steps){
-  for(int x= 1; x<steps; x++)  //Loop the forward stepping enough times for motion to be visible
+void AccelStepperJonas::SetSteps(int steps){
+  for(int y= 1; y<steps; y++)  //Loop the forward stepping enough times for motion to be visible
   {
     digitalWrite(_stp,HIGH); //Trigger one step forward
     delay(1);
     digitalWrite(_stp,LOW); //Pull step pin low so it can be triggered again
     delay(1);
   }
+};
+
+void AccelStepperJonas::SetStep(){
+  digitalWrite(_stp,HIGH); //Trigger one step forward
+  delay(1);
+  digitalWrite(_stp,LOW); //Pull step pin low so it can be triggered again
+  delay(1);
 };
 

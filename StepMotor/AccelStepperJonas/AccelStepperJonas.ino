@@ -24,6 +24,28 @@ void loop(){
       {
         SmallStepMode(steps, true);
       }
+      else if(user_input =='3')
+      {
+        stepper1.StepMode(1, true);
+        for(int x= 1; x<steps; x++)  //Loop the forward stepping enough times for motion to be visible
+        {
+          stepper1.SetStep();
+        }
+        Serial.println("Enter new option");
+        Serial.println();
+        stepper1.resetEDPins();
+      }
+      else if(user_input =='4')
+      {
+        stepper2.StepMode(1, true);
+        for(int x= 1; x<steps; x++)  //Loop the forward stepping enough times for motion to be visible
+        {
+          stepper2.SetStep();
+        }
+        Serial.println("Enter new option");
+        Serial.println();
+        stepper2.resetEDPins();
+      }
       else
       {
         Serial.println("Invalid option entered.");
@@ -38,9 +60,9 @@ void SmallStepMode(int steps, bool counterclock)
   stepper2.StepMode(1, not(counterclock));
   for(int x= 1; x<steps; x+=2)  //Loop the forward stepping enough times for motion to be visible
   {
-    stepper1.SetStep(2);
+    stepper1.SetSteps(2);
     delay(2);
-    stepper2.SetStep(2);
+    stepper2.SetSteps(2);
     delay(2);
   }
   Serial.println("Enter new option");

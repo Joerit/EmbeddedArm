@@ -12,7 +12,8 @@ class AccelStepperJonas{
     void StepDefault(int, bool);
     void StepSmall(int, bool);
     void StepMode(int, bool);
-    void SetStep(int);
+    void SetSteps(int);
+    void SetStep();
     void resetEDPins();
     
   private:
