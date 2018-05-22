@@ -10,6 +10,7 @@
 
 #include <math.h>
 #include "Arduino.h"
+#include "AccelStepper/AccelStepper.h"
 
 struct Point{
 	double x;
@@ -23,11 +24,13 @@ struct PointTuple{
 
 class DArm{
 public:
-	Point A;			// coordinates of left motor axle
-	Point B;			// coordinates of right motor axle
-	double lengthN;		// length of nearest part of arm
-	double lengthF;		// length of furthest part of arm
-	double stepAngle;	// angle of one motor step
+	Point A;				// coordinates of left motor axle
+	Point B;				// coordinates of right motor axle
+	double lengthN;			// length of nearest part of arm
+	double lengthF;			// length of furthest part of arm
+	double stepAngle;		// angle of one motor step
+	AccelStepper MotorA;	// object managing motor movement
+	AccelStepper MotorB;
 
 	//constructor
 	// lenthN: length of nearest part of arm, lengthF: length of furthest part of arm
@@ -43,6 +46,8 @@ public:
 
 	// move pen to coordinates point
 	void MoveTo(Point point);
+
+	void printPoint(Point p);
 };
 
 

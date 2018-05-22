@@ -9,7 +9,28 @@ RM := del
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir.mk
+-include libraries\PubSubClient\src\subdir.mk
 -include core\core\subdir.mk
+-include WirelessPart\ESPLineDancerDebug\subdir.mk
+-include WirelessPart\ESPLineDancer\subdir.mk
+-include StepMotor\testStepperLibrary\subdir.mk
+-include StepMotor\testStepMotorBoardJonas\subdir.mk
+-include StepMotor\testStepMotorBoard\subdir.mk
+-include StepMotor\AccelStepperJonas\subdir.mk
+-include AccelStepper\examples\Random\subdir.mk
+-include AccelStepper\examples\Quickstop\subdir.mk
+-include AccelStepper\examples\ProportionalControl\subdir.mk
+-include AccelStepper\examples\Overshoot\subdir.mk
+-include AccelStepper\examples\MultipleSteppers\subdir.mk
+-include AccelStepper\examples\MultiStepper\subdir.mk
+-include AccelStepper\examples\MotorShield\subdir.mk
+-include AccelStepper\examples\DualMotorShield\subdir.mk
+-include AccelStepper\examples\ConstantSpeed\subdir.mk
+-include AccelStepper\examples\Bounce\subdir.mk
+-include AccelStepper\examples\Blocking\subdir.mk
+-include AccelStepper\examples\AFMotor_MultiStepper\subdir.mk
+-include AccelStepper\examples\AFMotor_ConstantSpeed\subdir.mk
+-include AccelStepper\subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)

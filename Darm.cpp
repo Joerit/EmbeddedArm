@@ -11,12 +11,25 @@ DArm::DArm(double lengthN, double lengthF, Point A, Point B){
 	this->lengthN = lengthN;
 	this->A = A;
 	this->B = B;
-	this->currentA = Point(45, 45);
-	this->currentP = Point(0, 0);
 	this->stepAngle = 0.9;
+	MotorA = AccelStepper(AccelStepper::DRIVER, 9, 8);
+	MotorB = AccelStepper(AccelStepper::DRIVER, 7, 6);
+
+	MotorA.setMaxSpeed(1000);
+	MotorB.setMaxSpeed(1000);
+
+	MotorA.setAcceleration(800);
+	MotorB.setAcceleration(800);
+
+	// set initial position
+	Point start = Point{0, 200};
+	Point angles = Convert(start);
+	MotorA.setCurrentPosition(angles.x/stepAngle);
+	MotorB.setCurrentPosition(angles.y/stepAngle);
 }
 
 Point DArm::Convert(Point point){
+	Serial.println("enter Convert()");
 	Point ret;
 	PointTuple intA;
 	PointTuple intB;
@@ -27,6 +40,10 @@ Point DArm::Convert(Point point){
 	// i'm thinking a is correct for A, b is correct for B?
 	ret.x = tanh(intA.a.y/intA.a.x) / 2 / PI * 360;
 	ret.y = tanh(intB.b.y/(intB.b.x - this->B.x)) / 2 / PI * 360;
+	Serial.print("retx = ");
+	Serial.print(ret.x);
+	Serial.print("rety = ");
+	Serial.println(ret.y, 3);
 	return ret;
 }
 
@@ -39,7 +56,7 @@ PointTuple DArm::CalcIntersects(Point A, double Ar, Point B, double Br){
 	// calculate/ check d
 	// d = ||P1 - P0||
 	// if d > R0 + R1 => nope
-
+	Serial.println("Start Calcintersects()");
 	double d = sqrt(pow((A.x - B.x), 2) + pow((A.y - B.y), 2));
 	Serial.print("d = ");
 	Serial.println(d, 3);
@@ -89,11 +106,44 @@ PointTuple DArm::CalcIntersects(Point A, double Ar, Point B, double Br){
 void DArm::MoveTo(Point point){
 	// convert point to angles
 	Point newAngles = Convert(point);
+	Serial.println("starting moveTo");
+	Serial.print("point: ");
+	printPoint(point);
+	Serial.println();
+	Serial.print("angles:");
+	printPoint(newAngles);
+	Serial.println();
 
 	// calculate what steps need to be taken
 	int stepsA = (newAngles.x) / stepAngle;
 	int stepsB = (newAngles.y) / stepAngle;
+	Serial.print("steps: ");
+	Serial.print(stepsA);
+	Serial.print(", ");
+	Serial.print(stepsB);
+	Serial.println();
+	Serial.println("steps calculated");
 
 	// move steps
+	MotorA.moveTo(stepsA);
+	MotorB.moveTo(stepsB);
+	Serial.println("steps set");
+	MotorA.run();
+	MotorB.run();
+	Serial.println("running");
+	while((MotorA.distanceToGo() + MotorB.distanceToGo()) > 0){
+		MotorA.run();
+		MotorB.run();
+		// delay(1);
+	}
+	Serial.println("done");
+}
 
+void DArm::printPoint(Point p)
+{
+	Serial.print("{");
+	Serial.print(p.x, 3);
+	Serial.print(", ");
+	Serial.print(p.y, 3);
+	Serial.print("}");
 }

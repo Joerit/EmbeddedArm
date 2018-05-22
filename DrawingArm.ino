@@ -2,10 +2,10 @@
 #include "DArm.hpp"
 //The setup function is called once at startup of the sketch
 
-
+DArm DA(133.0, 133.0, Point{0, 0}, Point{100, 0});
 void setup()
 {
-	Serial.begin(9600);
+	Serial.begin(115200);
 	Serial.println("setup done");
 // Add your initialization code here
 }
@@ -13,39 +13,38 @@ void setup()
 // The loop function is called in an endless loop
 void loop()
 {
-	DArm DA(133.0, 133.0, Point{0, 0}, Point{100, 0});
+	while(!Serial.available()){
+		Serial.print("in loop");
+	}
+	Serial.read();
 
-	Serial.println("point {56, 165} from A: ");
-	PointTuple PT = DA.CalcIntersects(DA.A, DA.lengthN, Point{56, 165}, DA.lengthF);
-	Serial.print("{");
-	printPoint(PT.a);
+	Serial.print("startpos: ");
+	Serial.print(DA.MotorA.currentPosition());
 	Serial.print(", ");
-	printPoint(PT.b);
-	Serial.print("}}");
-	Serial.println("");
+	Serial.print(DA.MotorA.currentPosition());
+	Serial.println();
+/*
+	Serial.print("move to ");
+	DA.printPoint({25, 200});
+	DA.MoveTo({25, 200});
+	Serial.print("move to ");
+	DA.printPoint({50, 200});
+	DA.MoveTo({50, 200});
+	Serial.print("move to ");
+	DA.printPoint({50, 225});
+	DA.MoveTo({50, 225});
+	Serial.print("move to ");
+	DA.printPoint({25, 225});
+	DA.MoveTo({25, 225});
+*/
+	Serial.print("move to ");
+	DA.printPoint({0, 200});
+	DA.MoveTo({0, 200});
+	Serial.print("move to ");
+	DA.printPoint({75, 200});
+	DA.MoveTo({75, 200});
 
-	Serial.println("point {56, 165} from B: ");
-	PT = DA.CalcIntersects(DA.B, DA.lengthN, Point{56, 165}, DA.lengthF);
-	Serial.print("{");
-	printPoint(PT.a);
-	Serial.print(", ");
-	printPoint(PT.b);
-	Serial.print("}}");
-	Serial.println("");
 
-	Point angles = DA.Convert(Point{56, 165});
-	Serial.println("angles:");
-	printPoint(angles);
-	Serial.println("");
-	while(true);
-//Add your repeated code here
-}
-void printPoint(Point p)
-{
-	Serial.print("{");
-	Serial.print(p.x, 3);
-	Serial.print(", ");
-	Serial.print(p.y, 3);
-	Serial.print("}");
+
 }
 
